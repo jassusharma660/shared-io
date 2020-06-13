@@ -1,13 +1,14 @@
 <?php
-if(!defined("DOCUMENT_ROOT")) {
-    include_once '../core/config.php';
-    header('location:'.DOCUMENT_ROOT);
-  }
+if(!defined("WEBSITE_NAME")) {
+  include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/config.php';
+  $url = $protocol.$_SERVER['HTTP_HOST'];
+  header('location: '.$url);
+}
 ?>
 <footer>
-  <span class="developer">Made with <img src="<?=ASSETS?>/images/icons/pixel-heart-50.png" alt="love"> by Jassu Sharma</span>
+  <span class="developer">Made with <img src="/app/assets/images/icons/heart-24.png" alt="love"> by Jassu Sharma</span>
   <span id="copyright"></span>
 </footer>
 <script>
-  document.getElementById("copyright").innerHTML = "&copy; "+new Date().getFullYear();
+  $("#copyright").html("&copy; "+new Date().getFullYear());
 </script>

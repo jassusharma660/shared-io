@@ -1,0 +1,17 @@
+$(function(){
+    $('#error').click(function(){
+        $('#error').fadeOut(200);
+    });
+    $('#toggleLoginDiv').click(function(){
+        $('#toggleLoginDiv').toggle();
+        $('#toggleSignupDiv').toggle();
+        $('#loginSection').show();
+        $('#signupSection').hide();
+    });
+    $('#toggleSignupDiv').click(function(){
+        $('#toggleLoginDiv').toggle();
+        $('#toggleSignupDiv').toggle();
+        $('#loginSection').hide();
+        $('#signupSection').show();
+    });
+});

@@ -1,9 +1,10 @@
 <?php
 session_start();
-include_once '../core/config.php';
+
+include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/config.php';
 
 if(!isset($_SESSION['loggedin']) || !isset($_SESSION['email']) || $_SESSION['loggedin']!==true)
-  header('location: '.DOCUMENT_ROOT);
+  header('location: '.$protocol.$_SERVER['HTTP_HOST']);
 
 $DB_HOST = DB_HOST;
 $DB_NAME = DB_NAME;
@@ -11,7 +12,7 @@ $DB_USER = DB_USER;
 $DB_PASS = DB_PASS;
 
 if(isset($_POST['action'])) {
-    
+
     //Create Document action
     if(htmlspecialchars($_POST['action'])=="creatDocument" && isset($_POST['doc_name'])) {
         include_once '../core/file.helper.php';
@@ -20,7 +21,7 @@ if(isset($_POST['action'])) {
             $doc->set(htmlspecialchars($_POST['doc_name']));
         else
             $doc->set();
-            
+
         $result = $doc->checkFileName();
 
         if($result['valid'] === false) {
@@ -45,61 +46,68 @@ if(isset($_POST['action'])) {
     <link rel="stylesheet" href="../assets/style/dashboard.css">
 </head>
 <body>
-    <?php
-        require_once './header.php';
-    ?>
-    <section id="existingDocuments">
-        <table>
-        <?php
-            try {
-                $con = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME",$DB_USER,$DB_PASS);
-                $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          
-                $stmt = $con->prepare("SELECT doc_id, doc_name, owner, created FROM documentdetails WHERE owner=? ORDER BY created DESC");
-                $stmt->execute([$_SESSION['email']]);
-                
-                $dataEmpty = true;
-
-                while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    $dataEmpty = false;
-                    echo "<tr>
-                            <td onclick='openDocument(\"{$data['doc_id']}\")'>{$data['doc_name']}</td>
-                            <td>{$data['owner']}</td>
-                            <td>{$data['created']}</td>
-                            <td>
-                            <div class='menu'>
-                                <button class='menubtn'>Menu</button>
-                                <div class='menu-content'>
-                                    <a onclick='openDocument(\"{$data['doc_id']}\")'>View</a>
-                                    <a onclick='removeDocument(\"{$data['doc_id']}\")'>Remove</a>
-                                </div>
-                            </div> </td>
-                          </tr>";
-                }
-                
-                if($dataEmpty) {
-                    echo "No files created!";
-                }
-                
-              } catch(PDOException $e) {
-                echo "Some error occurred!";
-              }
-          
-              $con = null;
-        ?>
-        </table>
-    </section>
+  <main>
     <?php if(isset($error)) print $error;?>
-
-    <button id="createDocument">Add document</button>
-
-    <section id="createDocumentDialog">
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <label for="doc_name">Document Name</label><br/>
-            <input type="text" name="doc_name" placeholder="Untitled Document"><br/>
-            <button type="submit" name="action" value="creatDocument">Create</button>
-        </form>
-        <button class="cancel">Cancel</button>
+    <section id="left_pane">
+      <?php
+        require_once $VIEW_PATH.'header.php';
+      ?>
     </section>
+    <section id="right_pane">
+      <div id="action_bar">
+        <button id="createDocument">Create a document</button>
+        <section id="createDocumentDialog">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                <label for="doc_name">Document Name</label><br/>
+                <input type="text" name="doc_name" placeholder="Untitled Document"><br/>
+                <button type="submit" name="action" value="creatDocument">Create</button>
+            </form>
+            <button class="cancel">Cancel</button>
+        </section>
+      </div>
+      <section id="existingDocuments">
+          <table>
+          <?php
+              try {
+                  $con = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME",$DB_USER,$DB_PASS);
+                  $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                  $stmt = $con->prepare("SELECT doc_id, doc_name, owner, created FROM documentdetails WHERE owner=? ORDER BY created DESC");
+                  $stmt->execute([$_SESSION['email']]);
+
+                  $dataEmpty = true;
+
+                  while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                      $dataEmpty = false;
+                      echo "<tr>
+                              <td><img src='/app/assets/images/icons/red-file-64.png'/></td>
+                              <td onclick='openDocument(\"{$data['doc_id']}\")'>{$data['doc_name']}</td>
+                              <td>{$data['owner']}</td>
+                              <td>{$data['created']}</td>
+                              <td>
+                              <div class='menu'>
+                                  <button class='menubtn'>Menu</button>
+                                  <div class='menu-content'>
+                                      <a onclick='openDocument(\"{$data['doc_id']}\")'>View</a>
+                                      <a onclick='removeDocument(\"{$data['doc_id']}\")'>Remove</a>
+                                  </div>
+                              </div> </td>
+                            </tr>";
+                  }
+
+                  if($dataEmpty) {
+                      echo "No files created!";
+                  }
+
+                } catch(PDOException $e) {
+                  echo "Some error occurred!";
+                }
+
+                $con = null;
+          ?>
+          </table>
+      </section>
+    </section>
+  </main>
 </body>
 </html>

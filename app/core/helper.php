@@ -1,5 +1,7 @@
 <?php
 
+include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/config.php';
+
 /****************************
  * Validator functions
  ****************************/
@@ -77,12 +79,12 @@ class Validator
       $stmt = $con->prepare("SELECT fullname, pass, email FROM masterlogin WHERE email=?");
       $stmt->execute([$email]);
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
-      
+
       if(!$row)
         return false;
       else
         return $row;
-      
+
     } catch(PDOException $e) {
       echo "Some error occurred!".$e;
     }
@@ -106,7 +108,7 @@ class Signup extends Validator
     $this->email = htmlspecialchars(trim($email));
     $this->password = htmlspecialchars(trim($password));
   }
-  
+
   function addUserToDatabase() {
     $this->password = password_hash($this->password, PASSWORD_DEFAULT);
 
@@ -138,14 +140,14 @@ class Login extends Validator {
     $this->password = htmlspecialchars(trim($password));
   }
 
-  function checkLogin($result) {
+  function checkLogin($result, $url=null) {
     if(password_verify($this->password, $result['pass'])) {
       session_destroy();
       session_start();
       $_SESSION['fullname'] = $result['fullname'];
       $_SESSION['email'] = $result['email'];
       $_SESSION['loggedin'] = true;
-      header('location:./');
+      header('location: '.$GLOBALS['protocol'].$_SERVER['HTTP_HOST']."/app/view/dashboard.php");
     }
     else
       return "Wrong password!";
