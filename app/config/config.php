@@ -32,10 +32,10 @@ define('ROOTINDEX',"index.php");
   THIS WILL SET DATABASE
   credentials
 **************************/
-define('DB_HOST',"");
-define('DB_NAME',"");
-define('DB_USER',"");
-define('DB_PASS',"");
+define('DB_HOST','localhost');
+define('DB_NAME','shared-io');
+define('DB_USER','sharedio_dba');
+define('DB_PASS','sharedio_dba');
 
 
 /**************************
