@@ -10,7 +10,7 @@ class Validator
   protected $DB_USER = DB_USER;
   protected $DB_PASS = DB_PASS;
 
-  public function validName($fullname)
+  function validName($fullname)
   {
     $result = array('valid'=>true,'msg'=>"Some error occurred!");
     if(empty($fullname)) {
@@ -28,7 +28,7 @@ class Validator
     return $result;
   }
 
-  public function validEmail($email)
+  function validEmail($email)
   {
     $result = array('valid'=>false,'msg'=>"Some error occurred!");
     if(empty($email)) {
@@ -48,7 +48,7 @@ class Validator
     return $result;
   }
 
-  public function validPassword($password)
+  function validPassword($password)
   {
     $result = array('valid'=>false,'msg'=>"Some error occurred!");
     if(empty($password)) {
@@ -69,29 +69,20 @@ class Validator
     return $result;
   }
 
-  public function checkUserExist($email, $password=null) {
+  function checkUserExist($email) {
     try {
       $con = new PDO("mysql:host=$this->DB_HOST;dbname=$this->DB_NAME",$this->DB_USER,$this->DB_PASS);
       $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      if($password != null) {
-        $stmt = $con->prepare("SELECT fullname, email, password FROM masterlogin WHERE email=? AND password=?");
-        $stmt->execute([$email,$password]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(!$row)
-          return false;
-        else
-          return $row;
-      }
-      else {
-        $stmt = $con->prepare("SELECT email FROM masterlogin WHERE email=?");
-        $stmt->execute([$email]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(!$row)
-          return false;
-        else
-          return true;
-      }
+      $stmt = $con->prepare("SELECT fullname, pass, email FROM masterlogin WHERE email=?");
+      $stmt->execute([$email]);
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      
+      if(!$row)
+        return false;
+      else
+        return $row;
+      
     } catch(PDOException $e) {
       echo "Some error occurred!";
     }
@@ -123,7 +114,7 @@ class Signup extends Validator
       $con = new PDO("mysql:host=$this->DB_HOST;dbname=$this->DB_NAME",$this->DB_USER,$this->DB_PASS);
       $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-      $stmt = $con->prepare("INSERT INTO masterlogin (fullname, email, password) VALUES (?,?,?)");
+      $stmt = $con->prepare("INSERT INTO masterlogin (fullname, email, pass) VALUES (?,?,?)");
       $stmt->execute([$this->fullname, $this->email, $this->password]);
 
     } catch(PDOException $e) {
@@ -131,5 +122,30 @@ class Signup extends Validator
     }
 
     $con = null;
+  }
+}
+
+
+/*************************
+ * Login process handler
+ *************************/
+class Login extends Validator {
+  public $email;
+  public $password;
+
+  function __construct($email, $password) {
+    $this->email = htmlspecialchars(trim($email));
+    $this->password = htmlspecialchars(trim($password));
+  }
+
+  function checkLogin($result) {
+    if(password_verify($this->password, $result['pass'])) {
+      session_destroy();
+      session_start();
+      $_SESSION['fullname'] = $result['fullname'];
+      $_SESSION['email'] = $result['email'];
+      $_SESSION['loggedin'] = true;
+      header('location:./');
+    }
   }
 }
