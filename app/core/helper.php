@@ -84,7 +84,7 @@ class Validator
         return $row;
       
     } catch(PDOException $e) {
-      echo "Some error occurred!";
+      echo "Some error occurred!".$e;
     }
 
     $con = null;
