@@ -136,43 +136,6 @@
                           </div>
                         </div>
 
-                        <!--DELETE FROM HERE----->
-
-                        <div class="online_user">
-                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
-                            <?=$data['fullname'][0]?>
-                          </span>
-                          <div style="display:none;">
-                              <span><?=$data['fullname']?></span>
-                              <span>(<?=$data['email']?>)</span>
-                          </div>
-                        </div><div class="online_user">
-                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
-                            <?=$data['fullname'][0]?>
-                          </span>
-                          <div style="display:none;">
-                              <span><?=$data['fullname']?></span>
-                              <span>(<?=$data['email']?>)</span>
-                          </div>
-                        </div><div class="online_user">
-                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
-                            <?=$data['fullname'][0]?>
-                          </span>
-                          <div style="display:none;">
-                              <span><?=$data['fullname']?></span>
-                              <span>(<?=$data['email']?>)</span>
-                          </div>
-                        </div><div class="online_user">
-                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
-                            <?=$data['fullname'][0]?>
-                          </span>
-                          <div style="display:none;">
-                              <span><?=$data['fullname']?></span>
-                              <span>(<?=$data['email']?>)</span>
-                          </div>
-                        </div>
-
-                        <!--Till here-->
                         <?php
                         }
                     }
