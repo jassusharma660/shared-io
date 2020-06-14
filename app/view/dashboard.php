@@ -31,7 +31,6 @@ if(isset($_POST['action'])) {
             $doc->createDocument();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -40,10 +39,10 @@ if(isset($_POST['action'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?=WEBSITE_NAME?> | Home</title>
-    <script src="../assets/scripts/jquery-3.5.1.min.js"></script>
-    <script src="../assets/scripts/dashboard.js"></script>
-    <link rel="stylesheet" href="../assets/style/master.css">
-    <link rel="stylesheet" href="../assets/style/dashboard.css">
+    <script src="/app/assets/scripts/jquery-3.5.1.min.js"></script>
+    <script src="/app/assets/scripts/dashboard.js"></script>
+    <link rel="stylesheet" href="/app/assets/style/master.css">
+    <link rel="stylesheet" href="/app/assets/style/dashboard.css">
 </head>
 <body>
   <main>
@@ -55,17 +54,21 @@ if(isset($_POST['action'])) {
     </section>
     <section id="right_pane">
       <div id="action_bar">
-        <button id="createDocument">Create a document</button>
+        <button id="createDocument" class="accent_button">Create a document</button>
         <section id="createDocumentDialog">
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                <label for="doc_name">Document Name</label><br/>
-                <input type="text" name="doc_name" placeholder="Untitled Document"><br/>
-                <button type="submit" name="action" value="creatDocument">Create</button>
+            <section class="container">
+              <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                <label for="doc_name">Document Name<b>*Optional</b></label><br/>
+                <input type="text" name="doc_name" placeholder="Untitled Document">
+                <button type="submit" name="action" value="creatDocument" class="accent_button">Create</button>
+
+                <button class="accent_button cancel" onclick="return false;">Cancel</button>
             </form>
-            <button class="cancel">Cancel</button>
+          </section>
         </section>
       </div>
       <section id="existingDocuments">
+        <h2>Available files</h2>
           <table>
           <?php
               try {
@@ -80,18 +83,16 @@ if(isset($_POST['action'])) {
                   while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                       $dataEmpty = false;
                       echo "<tr>
-                              <td><img src='/app/assets/images/icons/red-file-64.png'/></td>
-                              <td onclick='openDocument(\"{$data['doc_id']}\")'>{$data['doc_name']}</td>
+                              <td><img class='circle' src='/app/assets/images/icons/file-96.png'/></td>
+                              <td style='font-weight:bold;' onclick='openDocument(\"{$data['doc_id']}\")'>{$data['doc_name']}</td>
                               <td>{$data['owner']}</td>
                               <td>{$data['created']}</td>
-                              <td>
-                              <div class='menu'>
-                                  <button class='menubtn'>Menu</button>
-                                  <div class='menu-content'>
-                                      <a onclick='openDocument(\"{$data['doc_id']}\")'>View</a>
-                                      <a onclick='removeDocument(\"{$data['doc_id']}\")'>Remove</a>
-                                  </div>
-                              </div> </td>
+                              <td onclick='openDocument(\"{$data['doc_id']}\")'>
+                                <img src='/app/assets/images/icons/eye-96.png' alt='View' title='View'/>
+                              </td>
+                              <td onclick='removeDocument(\"{$data['doc_id']}\")'>
+                                <img src='/app/assets/images/icons/delete-file-96.png' alt='Remove' title='Remove'/>
+                              </td>
                             </tr>";
                   }
 

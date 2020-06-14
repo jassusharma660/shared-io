@@ -1,58 +1,130 @@
+.accent_button {
+  cursor: pointer;
+  font-family: 'OpenSans-Regular';
+  background: #51489a;
+  color: #fff;
+  box-shadow: 0 0 10px 0.1px rgba(72, 107, 154, 0.4);
+  border: 0;
+  outline: 0;
+  border-radius: 10rem;
+  padding: 0.5rem 1.7rem;
+  font-size: 0.8rem;
+}
+
+#createDocument {
+  margin-left: auto;
+}
+
 #createDocumentDialog {
-    display: none;
-    background-color: #777;
-    position: fixed;
-    top: 25%;
-    left: 0;
-    right: 0;
-    width: 40vw;
-    margin: 0 auto;
+  display: none;
+  background-color: #000a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
 }
 
-#existingDocuments {
-    background-color: #ddd;
+#createDocumentDialog .container {
+  background-color: #fff;
+  position: relative;
+  top: 10%;
+  margin: 0 auto;
+  width: 40%;
+  padding: 2vw;
+  border-radius: 10px;
 }
 
-#existingDocuments tr td:first-child:hover{
-    cursor: pointer;
-    color: #000;
-    font-weight: bold;
+#createDocumentDialog .container input[type="text"]{
+  border: 1px solid #000a;
 }
 
-#existingDocuments .menu {
-    float: left;
-    overflow: hidden;
+#createDocumentDialog .container label[for="doc_name"] b{
+  color: #aaa;
+  font-weight: normal;
+  font-size: 0.6rem;
+  color: #f00a;
+  margin-left: 1%;
 }
 
-#existingDocuments .menu .menubtn {
-    border: none;
-    outline: none;
-    cursor: pointer;
+#createDocumentDialog .container button{
+  margin-top: 1vw;
 }
 
-#existingDocuments .menu-content {
-    display: none;
-    position: absolute;
-    background-color: #777;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+#createDocumentDialog .container button.cancel{
+  background: #eee;
+  color: #000;
+  border: 1px solid #aaa;
+  margin-left: 1vw;
 }
 
-#existingDocuments .menu-content a {
-    float: none;
-    color: black;
-    padding: 6px 10px;
-    text-decoration: none;
-    display: block;
-    cursor: pointer;
+#existingDocuments h2{
+  font-size: 1rem;
+  margin-bottom: 3vh;
 }
 
-#existingDocuments .menu-content a:hover {
-    background-color: #ddd;
+#existingDocuments .circle{
+  height: 4vh;
+  width: 4vh;
 }
 
-#existingDocuments .menu:hover .menu-content {
-    display: block;
+#existingDocuments table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  white-space:normal;
+}
+
+#existingDocuments tr {
+  cursor: pointer;
+}
+
+#existingDocuments tr:first-child td:first-child {
+  border-top-left-radius: 10px;
+}
+#existingDocuments tr:hover td:last-child { border-top-right-radius: 10px; }
+#existingDocuments tr:hover td:first-child { border-top-left-radius: 10px; }
+#existingDocuments tr:hover td:first-child { border-bottom-left-radius: 10px; }
+#existingDocuments tr:hover td:last-child { border-bottom-right-radius: 10px; }
+
+#existingDocuments tr td{
+  padding: 1vw;
+  overflow: hidden;
+  width: 10%;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#existingDocuments tr td:first-child {
+  width: 3%;
+}
+
+#existingDocuments tr td:nth-child(2){
+  width: 20%;
+}
+#existingDocuments tr td:nth-child(3){
+  width: 12%;
+}
+#existingDocuments tr td:nth-child(4){
+  width: 10%;
+}
+#existingDocuments tr td:nth-child(5){
+  width: 3%;
+}
+#existingDocuments tr td:last-child{
+  width: 3%;
+}
+
+#existingDocuments tr td img{
+  height: 20%;
+}
+
+#existingDocuments tr:hover {
+  background: #fff;
+  box-shadow: 0px 0px 10px 1px rgba(100,100,100,0.1);
+  border-radius: 10px;
 }
 
 @media screen and (max-width: 600px) {

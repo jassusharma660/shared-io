@@ -29,11 +29,9 @@
   <span class="name"><?=$_SESSION['fullname']?></span>
   <span class="email"><?=$_SESSION['email']?></span>
 </div>
-<div id="logout">
+<div onclick="window.location.href='logout.php';" id="logout">
   <img src="/app/assets/images/icons/lock-96.png"/>
-  <a onclick="window.location.href='logout.php';">
-    Logout
-  </a>
+  Logout
 </div>
 <?php
   }
