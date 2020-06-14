@@ -82,7 +82,7 @@ if(isset($_POST['action'])) {
                 }
                 
               } catch(PDOException $e) {
-                echo "Some error occurred!".$e;
+                echo "E:303,Some error occurred!";
               }
           
               $con = null;
