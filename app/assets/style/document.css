@@ -1,13 +1,42 @@
-#shareDialog {
-    display: none;
-    position: fixed;
-    left: 35%;
-    top: 20%;
-    width: 30%;
-    background-color: #fff;
-    box-shadow: 0 0 10px 10px rgba(0,0,0,0.1);
-    z-index: 2;
+#shareDocument {
+  margin-left: auto;
 }
+
+#shareDialog {
+  display: none;
+  background-color: #000a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
+}
+
+#shareDialog .container {
+  background-color: #fff;
+  position: relative;
+  top: 10%;
+  margin: 0 auto;
+  width: 40%;
+  padding: 2vw;
+  border-radius: 10px;
+}
+
+#shareDialog .container input[type="text"]{
+  border: 1px solid #000a;
+}
+
+#shareDialog .container button{
+  margin-top: 1vw;
+}
+
+#shareDialog .container button.cancel{
+  background: #eee;
+  color: #000;
+  border: 1px solid #aaa;
+  margin-left: 1vw;
+}
+
 #liveSearchResults {
     width: 100%;
     background-color: #ddd;

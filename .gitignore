@@ -1,2 +1,2 @@
 #app/core/config.php
-#app/core/config-heroku.php
+#app/core/config-local.php

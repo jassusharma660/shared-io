@@ -30,7 +30,7 @@ class Document {
     }
     return $result;
   }
-  
+
   function createDocument() {
     $result = array('valid'=>false, 'msg'=>null);
     $doc_id = bin2hex(random_bytes(30));
@@ -43,13 +43,13 @@ class Document {
 
       $stmt = $con->prepare("INSERT INTO documentdetails (doc_id, doc_name, owner) VALUES (?,?,?)");
       $stmt->execute([$doc_id, $this->doc_name, $_SESSION['email']]);
-      $filepath = "../storage/{$doc_id}.txt";
+      $filepath = $_SERVER['DOCUMENT_ROOT']."/app/storage/{$doc_id}.txt";
       $fp = fopen($filepath, "w");
       fwrite($fp,"");
       fclose($fp);
 
       //Redirect to the edit page.
-      header('location:./document.php?action=view&file='.$doc_id);
+      header('location: '.$GLOBALS['protocol'].$_SERVER['HTTP_HOST']."/app/view/document.php?action=view&file=$doc_id");
 
     } catch(PDOException $e) {
       return "Some error occurred!";

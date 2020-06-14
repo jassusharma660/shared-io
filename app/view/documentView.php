@@ -6,25 +6,24 @@
     $stmt = $con->prepare("SELECT * FROM documentdetails WHERE doc_id=?");
     $stmt->execute([$doc_id]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if($data['mode']=="deny" && $data['owner']!=$_SESSION['email']) {
       $stmt = $con->prepare("SELECT * FROM sharedetails WHERE email=? AND doc_id=?");
       $stmt->execute([$_SESSION['email'], $doc_id]);
       $check = $stmt->fetch(PDO::FETCH_ASSOC);
       if(!$check)
-        header('location:'.DOCUMENT_ROOT);
-    }
+      header('location: '.$GLOBALS['protocol'].$_SERVER['HTTP_HOST']."/app/view/dashboard.php");
 
-    $filepath = "../storage/{$data['doc_id']}.txt";
+    }
+    $filepath = $_SERVER['DOCUMENT_ROOT']."/app/storage/{$doc_id}.txt";
     $fp = fopen($filepath, "r");
 
     $data['file_contents'] = htmlspecialchars(filesize($filepath)>0 ? fread($fp, filesize($filepath)) : "");
     fclose($fp);
-    
+
   } catch(PDOException $e) {
     return "Some error occurred!";
   }
-
   $con = null;
 ?>
 <!DOCTYPE html>
@@ -33,30 +32,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?=WEBSITE_NAME." | ".$data['doc_name']?></title>
-  <script src="../assets/scripts/jquery-3.5.1.min.js"></script>
-  <script src="../assets/scripts/master.js"></script>
-  <script src="../assets/scripts/documentView.js"></script>
-  <link rel="stylesheet" href="../assets/style/master.css">
-  <link rel="stylesheet" href="../assets/style/document.css">
+  <script src="/app/assets/scripts/jquery-3.5.1.min.js"></script>
+  <script src="/app/assets/scripts/master.js"></script>
+  <script src="/app/assets/scripts/documentView.js"></script>
+  <link rel="stylesheet" href="/app/assets/style/master.css">
+  <link rel="stylesheet" href="/app/assets/style/document.css">
 </head>
 <body>
-  <?php require_once 'header.php';?>
+  <main>
+    <?php if(isset($error)) print $error;?>
+    <section id="left_pane">
+      <?php
+        require_once $VIEW_PATH.'header.php';
+      ?>
+    </section>
+    <section id="right_pane">
+      <div id="action_bar">
+        <button onclick="$('#shareDialog').show();" class="accent_button" id="shareDocument">Share</button>
+        <section id="shareDialog">
+          <section class="container">
+            <label for="share">Share</label>
+            <input type="hidden" value="<?=$data['doc_id']?>" id="doc_id">
+            <input type="text" id="liveSearch" onkeyup="liveSearchNow(this.value)" placeholder="Enter an email..">
+            <div id="liveSearchResults">
+            </div>
+            <button onclick="shareWith($('#liveSearch').val())" class="accent_button">Share</button>
+            <button onclick="closeShareDialog()" class="accent_button cancel">Cancel</button>
+          </section>
+        </section>
+      </div>
+
+    </section>
+  <!--?php require_once 'header.php';?>
   <section>
     <div id="viewers"></div>
-    <button onclick="$('#shareDialog').show();">Share</button>
+
   </section>
   <br/>
-  <section id="shareDialog">
-    <label for="share">Share</label>
-    <input type="hidden" value="<?=$data['doc_id']?>" id="doc_id">
-    <input type="text" id="liveSearch" onkeyup="liveSearchNow(this.value)" placeholder="Enter an email..">
-    <div id="liveSearchResults">
-    </div>
-    <button onclick="shareWith($('#liveSearch').val())">Share</button>
-    <button onclick="closeShareDialog()">Cancel</button>
-  </section>
+
   <textarea id="docEditor"><?=$data['file_contents'];?></textarea>
-  <button onclick="saveDocument('<?=$data['doc_id']?>')">Save</button>
-  
+  <button onclick="saveDocument('<?=$data['doc_id']?>')">Save</button-->
+
 </body>
 </html>

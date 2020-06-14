@@ -1,5 +1,5 @@
 function saveDocument(doc_id) {
-    content = $("#docEditor").val(); 
+    content = $("#docEditor").val();
     $.ajax({
         type: "POST",
         url: "./document.php",
@@ -70,11 +70,11 @@ function checkViews() {
 
 $(document).keyup(function(e){
     //Hide popups on esc
-    if(e.which==27) { 
+    if(e.which==27) {
         closeShareDialog();
     }
 });
 
 $(function(){
-    setInterval(checkViews,100);
+    setInterval(checkViews,60000);
 });
