@@ -5,6 +5,9 @@
     $url = $protocol.$_SERVER['HTTP_HOST'];
     header('location: '.$url);
   }
+
+  include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/colors.php';
+
   $showLogout = false;
 
   if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true)
@@ -23,10 +26,10 @@
   <!--Some options-->
 </div>
 <div id="profile">
-  <span class="profile_image">
+  <span class="profile_image" style="background-color:<?=getColorForWord($_SESSION['fullname']);?>">
     <?=$_SESSION['fullname'][0]?>
   </span>
-  <span class="name"><?=$_SESSION['fullname']?></span>
+  <span class="name"><?=$_SESSION['fullname']?></span><br/>
   <span class="email"><?=$_SESSION['email']?></span>
 </div>
 <div onclick="window.location.href='logout.php';" id="logout">

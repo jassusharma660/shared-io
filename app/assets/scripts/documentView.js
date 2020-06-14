@@ -76,5 +76,5 @@ $(document).keyup(function(e){
 });
 
 $(function(){
-    setInterval(checkViews,60000);
+    setInterval(checkViews,1000);
 });

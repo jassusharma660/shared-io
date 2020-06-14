@@ -48,12 +48,15 @@
     </section>
     <section id="right_pane">
       <div id="action_bar">
+
+        <div id="viewers"></div>
+
         <button onclick="$('#shareDialog').show();" class="accent_button" id="shareDocument">Share</button>
         <section id="shareDialog">
           <section class="container">
             <label for="share">Share</label>
             <input type="hidden" value="<?=$data['doc_id']?>" id="doc_id">
-            <input type="text" id="liveSearch" onkeyup="liveSearchNow(this.value)" placeholder="Enter an email..">
+            <input type="text" id="liveSearch" onkeyup="liveSearchNow(this.value)" placeholder="Enter an email">
             <div id="liveSearchResults">
             </div>
             <button onclick="shareWith($('#liveSearch').val())" class="accent_button">Share</button>
@@ -61,16 +64,10 @@
           </section>
         </section>
       </div>
-
     </section>
-  <!--?php require_once 'header.php';?>
-  <section>
-    <div id="viewers"></div>
 
-  </section>
-  <br/>
 
-  <textarea id="docEditor"><?=$data['file_contents'];?></textarea>
+  <!--textarea id="docEditor"><?=$data['file_contents'];?></textarea>
   <button onclick="saveDocument('<?=$data['doc_id']?>')">Save</button-->
 
 </body>

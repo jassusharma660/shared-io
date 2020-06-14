@@ -2,6 +2,7 @@
     session_start();
 
     include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/config.php';
+    include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/colors.php';
 
     $DB_HOST = DB_HOST;
     $DB_NAME = DB_NAME;
@@ -51,7 +52,7 @@
                     if($data['email']==$_SESSION['email']) continue;
                     $dataEmpty = false;
                 ?>
-                    <span onclick="$('#liveSearch').val('<?=$data['email']?>')"><?=$data['email']?></span><br/>
+                    <span onclick="$('#liveSearch').val('<?=$data['email']?>')"><?=$data['email']?></span>
                 <?php
                 }
 
@@ -116,20 +117,63 @@
                             $stmt->execute([$date,$doc_id,$_SESSION['email']]);
                         }
                     }
-                    else {
-                        $stmt = $con->prepare("SELECT share_id,sharedetails.email,fullname,doc_id,last_opened FROM sharedetails,masterlogin WHERE doc_id=? AND sharedetails.email=masterlogin.email");
-                        $stmt->execute([$doc_id]);
-                        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            $diff = strtotime($date) - strtotime($data['last_opened']);
+                    $stmt = $con->prepare("SELECT share_id,sharedetails.email,fullname,doc_id,last_opened FROM sharedetails,masterlogin WHERE doc_id=? AND sharedetails.email=masterlogin.email");
+                    $stmt->execute([$doc_id]);
+                    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        $diff = strtotime($date) - strtotime($data['last_opened']);
 
-                            if($diff<=60 && $data['email']!=$_SESSION['email'])
-                            {
-                            ?>
-                            <span>
-                                <?=$data['fullname']?>
-                            </span>
-                            <?php
-                            }
+                        if($diff<=120 && $data['email']!=$_SESSION['email'])
+                        {
+                          $color = getColorForWord($data['fullname']);
+                        ?>
+                        <div class="online_user">
+                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
+                            <?=$data['fullname'][0]?>
+                          </span>
+                          <div style="display:none;">
+                              <span><?=$data['fullname']?></span>
+                              <span>(<?=$data['email']?>)</span>
+                          </div>
+                        </div>
+
+                        <!--DELETE FROM HERE----->
+
+                        <div class="online_user">
+                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
+                            <?=$data['fullname'][0]?>
+                          </span>
+                          <div style="display:none;">
+                              <span><?=$data['fullname']?></span>
+                              <span>(<?=$data['email']?>)</span>
+                          </div>
+                        </div><div class="online_user">
+                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
+                            <?=$data['fullname'][0]?>
+                          </span>
+                          <div style="display:none;">
+                              <span><?=$data['fullname']?></span>
+                              <span>(<?=$data['email']?>)</span>
+                          </div>
+                        </div><div class="online_user">
+                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
+                            <?=$data['fullname'][0]?>
+                          </span>
+                          <div style="display:none;">
+                              <span><?=$data['fullname']?></span>
+                              <span>(<?=$data['email']?>)</span>
+                          </div>
+                        </div><div class="online_user">
+                          <span style="background-color: <?=$color?>;" class="profile_image" onmouseover="$(this).siblings('div').show()" onmouseout="$(this).siblings('div').hide()">
+                            <?=$data['fullname'][0]?>
+                          </span>
+                          <div style="display:none;">
+                              <span><?=$data['fullname']?></span>
+                              <span>(<?=$data['email']?>)</span>
+                          </div>
+                        </div>
+
+                        <!--Till here-->
+                        <?php
                         }
                     }
                 }catch(Exception $e){}
