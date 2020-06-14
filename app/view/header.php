@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <?=WEBSITE_NAME?> HEADER
-  </body>
-</html>
+<?php
+
+  if(!defined("DOCUMENT_ROOT")) {
+    include_once '../core/config.php';
+    header('location:'.DOCUMENT_ROOT);
+  }
+  $showLogout = false;
+
+  if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true)
+    $showLogout = true;
+?>
+<header>
+  <?=WEBSITE_NAME?> HEADER
+  
+  <?php
+    if($showLogout) 
+      echo "<button onclick=\"window.location.href='logout.php';\">logout</button>";
+  ?>
+</header>

@@ -38,7 +38,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
       else {
         //Check if user exist
         if(($row = $login->checkUserExist($login->email))!==false) {
-          $login->checkLogin($row);
+          $error = $login->checkLogin($row);
         }
         else
           $error = "User does not exist! Please signup first."; 
@@ -61,7 +61,10 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
     }
     </style>
   </head>
-  <body>
+  <body> 
+    <?php
+      require_once VIEW.'header.php';
+    ?>
     <br/>
     <?php if(isset($error)) print $error;?>
     <div>

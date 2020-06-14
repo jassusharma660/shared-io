@@ -118,7 +118,7 @@ class Signup extends Validator
       $stmt->execute([$this->fullname, $this->email, $this->password]);
 
     } catch(PDOException $e) {
-      return "Some error occurred!".$e->getMessage();
+      return "Some error occurred!";
     }
 
     $con = null;
@@ -147,5 +147,7 @@ class Login extends Validator {
       $_SESSION['loggedin'] = true;
       header('location:./');
     }
+    else
+      return "Wrong password!";
   }
 }

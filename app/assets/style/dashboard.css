@@ -1,0 +1,60 @@
+#createDocumentDialog {
+    display: none;
+    background-color: #777;
+    position: fixed;
+    top: 25%;
+    left: 0;
+    right: 0;
+    width: 40vw;
+    margin: 0 auto;
+}
+
+#existingDocuments { 
+    background-color: #ddd;
+}
+
+#existingDocuments tr td:first-child:hover{
+    cursor: pointer; 
+    color: #000;
+    font-weight: bold;
+}
+
+#existingDocuments .menu {
+    float: left;
+    overflow: hidden;
+}
+  
+#existingDocuments .menu .menubtn {  
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+  
+#existingDocuments .menu-content {
+    display: none;
+    position: absolute;
+    background-color: #777;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+  
+#existingDocuments .menu-content a {
+    float: none;
+    color: black;
+    padding: 6px 10px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+  
+#existingDocuments .menu-content a:hover {
+    background-color: #ddd;
+}
+  
+#existingDocuments .menu:hover .menu-content {
+    display: block;
+}
+
+@media screen and (max-width: 600px) {
+
+}

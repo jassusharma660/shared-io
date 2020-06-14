@@ -1,0 +1,91 @@
+/*@font-face {
+  font-family: 'SpaceMono';
+  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
+}
+*/
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: #eee;
+  font-family: 'OpenSans';
+  margin: 0;
+}
+
+header {
+  margin: 2vw 7vw;
+  margin-bottom: 0;
+}
+
+#progress {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: -1%;
+  width: 1%;
+  height: 3px;
+  background-color: #000;
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+  -moz-transition: width 600ms ease-out, opacity 500ms linear;
+  -ms-transition: width 600ms ease-out, opacity 500ms linear;
+  -o-transition: width 600ms ease-out, opacity 500ms linear;
+  -webkit-transition: width 600ms ease-out, opacity 500ms linear;
+  transition: width 1000ms ease-out, opacity 500ms linear;
+}
+#progress b,
+#progress i {
+  position: absolute;
+  top: 0;
+  height: 3px;
+  -moz-box-shadow: #777777 1px 0 6px 1px;
+  -ms-box-shadow: #777777 1px 0 6px 1px;
+  -webkit-box-shadow: #777777 1px 0 6px 1px;
+  box-shadow: #777777 1px 0 6px 1px;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+}
+#progress b {
+  clip: rect(-6px, 22px, 14px, 10px);
+  opacity: .6;
+  width: 20px;
+  right: 0;
+}
+#progress i {
+  clip: rect(-6px, 90px, 14px, -6px);
+  opacity: .6;
+  width: 180px;
+  right: -80px;
+}
+
+
+footer {
+  font-family: 'SpaceMono';
+  font-size: 0.8vw;
+  background: rgba(0,0,0,0.01);
+  margin-top: 2vw;
+  padding: 0.5vw 7vw;
+}
+
+footer img {
+  height: 1.5vw;
+  vertical-align: middle;
+}
+
+footer #copyright {
+  float: right;
+  font-weight: bold;
+}
+
+
+@media screen and (max-width: 600px) {
+  
+}
