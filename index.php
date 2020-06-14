@@ -61,7 +61,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
   <head>
     <meta charset="utf-8">
     <title><?=WEBSITE_NAME?> | Home</title>
-    <script src="./assets/scripts/jquery-3.5.1.min.js"></script>
+    <script src="./app/assets/scripts/jquery-3.5.1.min.js"></script>
     <link rel="stylesheet" href="./app/style/master.css">
     <link rel="stylesheet" href="./app/style/account.css">
     <style>
