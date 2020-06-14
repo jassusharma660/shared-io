@@ -19,8 +19,8 @@ function saveDocument(doc_id) {
 
 function closeShareDialog() {
     $("#shareDialog").hide();
-    $("#selectedShareList").html("");
     $("#liveSearch").val("");
+    $("#liveSearchResults").hide();
 }
 
 function liveSearchNow(q) {
@@ -30,7 +30,40 @@ function liveSearchNow(q) {
         data: {"action":"search","q":q},
         dataType: "text",
         success: function(response){
+           $("#liveSearchResults").show();
            $("#liveSearchResults").html(response);
+        }
+    });
+}
+
+function shareWith(email) {
+    $("#liveSearch").val(email);
+    $("#liveSearchResults").hide();
+    doc_id = $("#doc_id").val();
+    $.ajax({
+        type: "POST",
+        url: "./document.php",
+        data: {"action":"share","email":email,"doc_id":doc_id},
+        dataType: "text",
+        success: function(response){
+            if(response=="success") {
+                alert("Done!");
+                $("#liveSearch").val("");
+                $("#liveSearchResults").hide();
+            }
+        }
+    });
+}
+
+function checkViews() {
+    doc_id = $("#doc_id").val();
+    $.ajax({
+        type: "POST",
+        url: "./document.php",
+        data: {"action":"viewers","doc_id":doc_id},
+        dataType: "text",
+        success: function(response){
+            $('#viewers').html(response);
         }
     });
 }
@@ -40,4 +73,8 @@ $(document).keyup(function(e){
     if(e.which==27) { 
         closeShareDialog();
     }
+});
+
+$(function(){
+    setInterval(checkViews,100);
 });

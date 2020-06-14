@@ -7,6 +7,14 @@
     $stmt->execute([$doc_id]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
     
+    if($data['mode']=="deny" && $data['owner']!=$_SESSION['email']) {
+      $stmt = $con->prepare("SELECT * FROM sharedetails WHERE email=? AND doc_id=?");
+      $stmt->execute([$_SESSION['email'], $doc_id]);
+      $check = $stmt->fetch(PDO::FETCH_ASSOC);
+      if(!$check)
+        header('location:'.DOCUMENT_ROOT);
+    }
+
     $filepath = "../storage/{$data['doc_id']}.txt";
     $fp = fopen($filepath, "r");
 
@@ -33,15 +41,18 @@
 </head>
 <body>
   <?php require_once 'header.php';?>
-  <button onclick="$('#shareDialog').show();">Share</button>
+  <section>
+    <div id="viewers"></div>
+    <button onclick="$('#shareDialog').show();">Share</button>
+  </section>
   <br/>
   <section id="shareDialog">
     <label for="share">Share</label>
-    <ul id="selectedShareList"></ul>
+    <input type="hidden" value="<?=$data['doc_id']?>" id="doc_id">
     <input type="text" id="liveSearch" onkeyup="liveSearchNow(this.value)" placeholder="Enter an email..">
     <div id="liveSearchResults">
     </div>
-    <button onclick="">Share</button>
+    <button onclick="shareWith($('#liveSearch').val())">Share</button>
     <button onclick="closeShareDialog()">Cancel</button>
   </section>
   <textarea id="docEditor"><?=$data['file_contents'];?></textarea>

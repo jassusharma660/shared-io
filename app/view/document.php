@@ -6,7 +6,6 @@
     $DB_NAME = DB_NAME;
     $DB_USER = DB_USER;
     $DB_PASS = DB_PASS;
-
     if($_SERVER['REQUEST_METHOD']=='POST') {
 
         if(isset($_POST['action']) && !empty($_POST['action'])) {
@@ -50,9 +49,9 @@
                 while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     if($data['email']==$_SESSION['email']) continue;
                     $dataEmpty = false;
-                    $append = "<li>{$data['email']}<button onclick=$(this).closest('li').remove()>x</button></li>";
-                    echo "<div onclick='$(\"#selectedShareList\").append(\"<li>{$data['email']}<a onclick=$(this).closest(\"li\").remove()>x</a></li>\");'>{$data['email']}</div>";
-                    //echo "<div onclick='$('#selectedShareList').append('');'>{$data['email']}</div>";
+                ?>
+                    <span onclick="$('#liveSearch').val('<?=$data['email']?>')"><?=$data['email']?></span><br/>
+                <?php
                 }
                 
                 if($dataEmpty) {
@@ -60,6 +59,80 @@
                 }
         
                 $con = null;
+            }
+            else if($cmd === "share" && isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['doc_id']) && !empty($_POST['doc_id'])) { 
+               
+                try{
+                    $to_email = htmlspecialchars($_POST['email']);
+                    $doc_id = htmlspecialchars($_POST['doc_id']);
+
+                    $con = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME",$DB_USER,$DB_PASS);
+                    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+                    $stmt = $con->prepare("SELECT * FROM documentdetails WHERE doc_id=?");
+                    $stmt->execute([$doc_id]);
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if($row) {
+
+                        $stmt = $con->prepare("SELECT * FROM sharedetails WHERE doc_id=? AND email=?");
+                        $stmt->execute([$doc_id,$to_email]);
+                        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if(!$row) {
+                            $share_id = bin2hex(random_bytes(30));
+                            $date = date('Y-m-d H:i:s');
+
+                            $stmt = $con->prepare("UPDATE documentdetails SET mode=? WHERE doc_id=?");
+                            $stmt->execute(["deny",$doc_id]);
+                            $stmt = $con->prepare("INSERT INTO sharedetails(share_id, email, doc_id, last_opened) VALUES(?,?,?,?)");
+                            $stmt->execute([$share_id, $to_email, $doc_id, $date]);
+                        }
+                        echo "success";
+                    }
+                }catch(Exception $e){}
+                    $con = null;
+            }
+            else if($cmd === "viewers" && isset($_POST['doc_id']) && !empty($_POST['doc_id'])) { 
+                
+                try{
+                    $doc_id = htmlspecialchars($_POST['doc_id']);
+
+                    $con = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME",$DB_USER,$DB_PASS);
+                    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+                    $stmt = $con->prepare("SELECT * FROM documentdetails WHERE doc_id=?");
+                    $stmt->execute([$doc_id]);
+                    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $date = date('Y-m-d H:i:s');
+                    
+                    if($data['mode']=="deny" && $data['owner']!=$_SESSION['email']) {
+                        $stmt = $con->prepare("SELECT * FROM sharedetails WHERE email=? AND doc_id=?");
+                        $stmt->execute([$_SESSION['email'], $doc_id]);
+                        $check = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if(!$check)
+                            header('location:'.DOCUMENT_ROOT);
+                        if($data['owner']!=$_SESSION['email']) {
+                            $stmt = $con->prepare("UPDATE sharedetails SET last_opened=? WHERE doc_id=? AND email=?");
+                            $stmt->execute([$date,$doc_id,$_SESSION['email']]);
+                        }
+                    }
+                    else {
+                        $stmt = $con->prepare("SELECT share_id,sharedetails.email,fullname,doc_id,last_opened FROM sharedetails,masterlogin WHERE doc_id=? AND sharedetails.email=masterlogin.email");
+                        $stmt->execute([$doc_id]);
+                        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            $diff = strtotime($date) - strtotime($data['last_opened']);
+
+                            if($diff<=60 && $data['email']!=$_SESSION['email'])
+                            {
+                            ?>
+                            <span>
+                                <?=$data['fullname']?>
+                            </span>
+                            <?php
+                            }
+                        }
+                    }
+                }catch(Exception $e){}
+                    $con = null;
             }
         }
     }
@@ -89,7 +162,6 @@
                             $filepath = "../storage/{$row['doc_id']}.txt";
                             unlink($filepath);
                         }
-                        //Redirect to the edit page.
                 
                     } catch(PDOException $e) {
                         return "Some error occurred!";
