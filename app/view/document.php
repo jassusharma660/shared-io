@@ -81,12 +81,11 @@
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
                         if(!$row) {
                             $share_id = bin2hex(random_bytes(30));
-                            $date = date('Y-m-d H:i:s');
 
                             $stmt = $con->prepare("UPDATE documentdetails SET mode=? WHERE doc_id=?");
                             $stmt->execute(["deny",$doc_id]);
-                            $stmt = $con->prepare("INSERT INTO sharedetails(share_id, email, doc_id, last_opened) VALUES(?,?,?,?)");
-                            $stmt->execute([$share_id, $to_email, $doc_id, $date]);
+                            $stmt = $con->prepare("INSERT INTO sharedetails(share_id, email, doc_id) VALUES(?,?,?)");
+                            $stmt->execute([$share_id, $to_email, $doc_id]);
                         }
                         echo "success";
                     }
