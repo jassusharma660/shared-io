@@ -40,13 +40,13 @@
 </head>
 <body>
   <main>
-    <?php if(isset($error)) print $error;?>
     <section id="left_pane">
       <?php
         require_once $VIEW_PATH.'header.php';
       ?>
     </section>
     <section id="right_pane">
+
       <div id="action_bar">
 
         <div id="viewers"></div>
@@ -64,6 +64,12 @@
           </section>
         </section>
       </div>
+      <?php
+      if(isset($error))
+        echo "<div id='error'>".$error."</div>";
+      else if(isset($success))
+        echo "<div id='success'>".$success."</div>";
+      ?>
       <section>
         <textarea id="docEditor"><?=$data['file_contents'];?></textarea>
         <button onclick="saveDocument('<?=$data['doc_id']?>')">Save</button>

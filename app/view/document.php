@@ -164,9 +164,8 @@
                         $stmt->execute([$doc_id]);
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
                         if($row) {
+                          echo $doc_id;
                             $stmt = $con->prepare("DELETE FROM documentdetails WHERE doc_id=?");
-                            $stmt->execute([$doc_id]);
-                            $stmt = $con->prepare("DELETE FROM sharedetails WHERE doc_id=?");
                             $stmt->execute([$doc_id]);
                             $filepath = "../storage/{$row['doc_id']}.txt";
                             unlink($filepath);

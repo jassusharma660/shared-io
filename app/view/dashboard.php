@@ -46,7 +46,6 @@ if(isset($_POST['action'])) {
 </head>
 <body>
   <main>
-    <?php if(isset($error)) print $error;?>
     <section id="left_pane">
       <?php
         require_once $VIEW_PATH.'header.php';
@@ -67,6 +66,13 @@ if(isset($_POST['action'])) {
           </section>
         </section>
       </div>
+
+      <?php
+      if(isset($error))
+        echo "<div id='error'>".$error."</div>";
+      else if(isset($success))
+        echo "<div id='success'>".$success."</div>";
+      ?>
       <section id="existingDocuments">
         <h2>Available files</h2>
           <table>
