@@ -64,11 +64,10 @@
           </section>
         </section>
       </div>
+      <section>
+        <textarea id="docEditor"><?=$data['file_contents'];?></textarea>
+        <button onclick="saveDocument('<?=$data['doc_id']?>')">Save</button>
+      </section>
     </section>
-
-
-  <!--textarea id="docEditor"><?=$data['file_contents'];?></textarea>
-  <button onclick="saveDocument('<?=$data['doc_id']?>')">Save</button-->
-
 </body>
 </html>
