@@ -1,6 +1,5 @@
 <?php
   session_start();
-
   include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/config.php';
   include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/colors.php';
 
@@ -39,7 +38,6 @@
                   fclose($handle);
 
               }
-
               $con = null;
           }
           else if($cmd === "search" && isset($_POST['q']) && !empty($_POST['q'])) {
@@ -116,8 +114,7 @@
                       $check = $stmt->fetch(PDO::FETCH_ASSOC);
 
                       if(!$check)
-                          $redirect = array("redirect"=>"home");
-                          echo json_encode($redirect);
+                          echo "home";
 
                       if($data['owner']!=$_SESSION['email']) {
                           $stmt = $con->prepare("UPDATE sharedetails SET last_opened=? WHERE doc_id=? AND email=?");

@@ -66,6 +66,7 @@ if(!$data)
 
         <div id="viewers"></div>
 
+        <input type="hidden" value="<?=$data['doc_id']?>" id="doc_id">
         <?php
           if($data['owner']==$_SESSION['email']) {
         ?>
@@ -73,7 +74,6 @@ if(!$data)
         <section id="shareDialog">
           <section class="container">
             <label for="share">Share</label>
-            <input type="hidden" value="<?=$data['doc_id']?>" id="doc_id">
             <input type="text" id="liveSearch" onkeyup="liveSearchNow(this.value)" placeholder="Enter an email">
             <div id="liveSearchResults">
             </div>
@@ -81,6 +81,30 @@ if(!$data)
             <button onclick="closeShareDialog()" class="accent_button cancel">Cancel</button>
           </section>
         </section>
+
+        <script>
+
+        function shareWith(email) {
+            $("#liveSearch").val(email);
+            $("#liveSearchResults").hide();
+            doc_id = $("#doc_id").val();
+            $.ajax({
+                type: "POST",
+                url: "./document.php",
+                data: {"action":"share","email":email,"doc_id":doc_id},
+                dataType: "text",
+                success: function(response){
+                    if(response=="success") {
+                        alert("Done!");
+                        $("#liveSearch").val("");
+                        $("#liveSearchResults").hide();
+                    }
+                }
+            });
+        }
+
+        </script>
+
       <?php }?>
       </div>
       <?php

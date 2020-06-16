@@ -36,25 +36,6 @@ function liveSearchNow(q) {
     });
 }
 
-function shareWith(email) {
-    $("#liveSearch").val(email);
-    $("#liveSearchResults").hide();
-    doc_id = $("#doc_id").val();
-    $.ajax({
-        type: "POST",
-        url: "./document.php",
-        data: {"action":"share","email":email,"doc_id":doc_id},
-        dataType: "text",
-        success: function(response){
-            if(response=="success") {
-                alert("Done!");
-                $("#liveSearch").val("");
-                $("#liveSearchResults").hide();
-            }
-        }
-    });
-}
-
 function checkViews() {
     doc_id = $("#doc_id").val();
     $.ajax({
@@ -63,8 +44,7 @@ function checkViews() {
         data: {"action":"viewers","doc_id":doc_id},
         dataType: "text",
         success: function(response){
-          let r = JSON.parse(response);
-          if(r.redirect && r.redirect=="home")
+          if(response == "home")
             window.location.href = "/";
           else
             $('#viewers').html(response);
