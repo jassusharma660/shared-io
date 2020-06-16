@@ -63,6 +63,10 @@ function checkViews() {
         data: {"action":"viewers","doc_id":doc_id},
         dataType: "text",
         success: function(response){
+          let r = JSON.parse(response);
+          if(r.redirect && r.redirect=="home")
+            window.location.href = "/";
+          else
             $('#viewers').html(response);
         }
     });

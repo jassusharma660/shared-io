@@ -1,4 +1,10 @@
 <?php
+
+if(!defined("WEBSITE_NAME")) {
+  include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/config.php';
+  $url = $protocol.$_SERVER['HTTP_HOST'];
+  header('location: '.$url);
+}
 include_once CORE.'helper.php';
 
 $hide_view = "signup";
@@ -41,7 +47,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
           $error = $login->checkLogin($row);
         }
         else
-          $error = "User does not exist! Please signup first."; 
+          $error = "User does not exist! Please signup first.";
       }
   }
 }
@@ -61,7 +67,7 @@ if($_SERVER['REQUEST_METHOD']=="POST") {
     }
     </style>
   </head>
-  <body> 
+  <body>
     <?php
       require_once VIEW.'header.php';
     ?>

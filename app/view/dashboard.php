@@ -15,7 +15,7 @@ if(isset($_POST['action'])) {
 
     //Create Document action
     if(htmlspecialchars($_POST['action'])=="creatDocument" && isset($_POST['doc_name'])) {
-        include_once '../core/file.helper.php';
+        include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/file.helper.php';
         $doc = new Document();
         if(isset($_POST['doc_name']))
             $doc->set(htmlspecialchars($_POST['doc_name']));

@@ -1,30 +1,45 @@
 <?php
-  try {
-    $con = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME",$DB_USER,$DB_PASS);
-    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $con->prepare("SELECT * FROM documentdetails WHERE doc_id=?");
-    $stmt->execute([$doc_id]);
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+if(!defined("WEBSITE_NAME")) {
+  include_once $_SERVER['DOCUMENT_ROOT'].'/app/core/config.php';
+  $url = $protocol.$_SERVER['HTTP_HOST'];
+  header('location: '.$url);
+}
 
-    if($data['mode']=="deny" && $data['owner']!=$_SESSION['email']) {
-      $stmt = $con->prepare("SELECT * FROM sharedetails WHERE email=? AND doc_id=?");
-      $stmt->execute([$_SESSION['email'], $doc_id]);
-      $check = $stmt->fetch(PDO::FETCH_ASSOC);
-      if(!$check)
-      header('location: '.$GLOBALS['protocol'].$_SERVER['HTTP_HOST']."/app/view/dashboard.php");
+try {
+  $con = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME",$DB_USER,$DB_PASS);
+  $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    }
-    $filepath = $_SERVER['DOCUMENT_ROOT']."/app/storage/{$doc_id}.txt";
+  $stmt = $con->prepare("SELECT * FROM documentdetails WHERE doc_id=?");
+  $stmt->execute([$doc_id]);
+  $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if($data['mode']=="deny" && $data['owner']!=$_SESSION['email']) {
+    $stmt = $con->prepare("SELECT * FROM sharedetails WHERE email=? AND doc_id=?");
+    $stmt->execute([$_SESSION['email'], $doc_id]);
+    $check = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if(!$check)
+    header('location: '.$GLOBALS['protocol'].$_SERVER['HTTP_HOST']."/app/view/dashboard.php");
+  }
+
+  $filepath = $_SERVER['DOCUMENT_ROOT']."/app/storage/{$doc_id}.txt";
+  if(!file_exists($filepath)) {
+    $fp = fopen($filepath, "w");
+    fwrite($fp,"");
+  }
+  else
     $fp = fopen($filepath, "r");
 
-    $data['file_contents'] = htmlspecialchars(filesize($filepath)>0 ? fread($fp, filesize($filepath)) : "");
-    fclose($fp);
+  $data['file_contents'] = htmlspecialchars(filesize($filepath)>0 ? fread($fp, filesize($filepath)) : "");
+  fclose($fp);
 
-  } catch(PDOException $e) {
-    return "Some error occurred!";
-  }
-  $con = null;
+} catch(PDOException $e) {
+  return "Some error occurred!";
+}
+$con = null;
+if(!$data)
+  header('location: '.$GLOBALS['protocol'].$_SERVER['HTTP_HOST']."/app/view/dashboard.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,6 +66,9 @@
 
         <div id="viewers"></div>
 
+        <?php
+          if($data['owner']==$_SESSION['email']) {
+        ?>
         <button onclick="$('#shareDialog').show();" class="accent_button" id="shareDocument">Share</button>
         <section id="shareDialog">
           <section class="container">
@@ -63,6 +81,7 @@
             <button onclick="closeShareDialog()" class="accent_button cancel">Cancel</button>
           </section>
         </section>
+      <?php }?>
       </div>
       <?php
       if(isset($error))

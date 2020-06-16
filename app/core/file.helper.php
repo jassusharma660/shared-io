@@ -44,7 +44,7 @@ class Document {
       $stmt = $con->prepare("INSERT INTO documentdetails (doc_id, doc_name, owner) VALUES (?,?,?)");
       $stmt->execute([$doc_id, $this->doc_name, $_SESSION['email']]);
       $filepath = $_SERVER['DOCUMENT_ROOT']."/app/storage/{$doc_id}.txt";
-      $fp = fopen($filepath, "w");
+      $fp = fopen($filepath, "w") or die();
       fwrite($fp,"");
       fclose($fp);
 
