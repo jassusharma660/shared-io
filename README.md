@@ -8,7 +8,8 @@ Shared-io is a shared document editing tool built with LAMP stack.
 ---
 [Heroku App](http://shared-io.herokuapp.com/)   
 
-```NOTE: There is some problem going on with the heroku deployment. Check back for update.```
+<del>```NOTE: There is some problem going on with the heroku deployment. Check back for update.```</del>  
+```NOTE: Now its working fine.```  
 
 ## Screenshots
 
