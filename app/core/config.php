@@ -13,10 +13,18 @@ else {
   THIS WILL SET DATABASE
   credentials
 **************************/
-define('DB_HOST','localhost');
-define('DB_NAME','shared-io');
-define('DB_USER','sharedio_dba');
-define('DB_PASS','sharedio_dba');
+//Get Heroku ClearDB connection information
+$cleardb_url      = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$cleardb_server   = $cleardb_url["host"];
+$cleardb_username = $cleardb_url["user"];
+$cleardb_password = $cleardb_url["pass"];
+$cleardb_db       = substr($cleardb_url["path"],1);
+
+
+define('DB_HOST',$cleardb_server);
+define('DB_NAME',$cleardb_db);
+define('DB_USER',$cleardb_username);
+define('DB_PASS',$cleardb_password);
 
 
 /**************************

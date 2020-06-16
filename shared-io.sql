@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 14, 2020 at 01:27 PM
+-- Generation Time: Jun 16, 2020 at 03:26 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.4
 
@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 -- Table structure for table `documentdetails`
 --
 
-DROP TABLE IF EXISTS `documentdetails`;
 CREATE TABLE `documentdetails` (
   `doc_id` varchar(255) NOT NULL,
   `doc_name` varchar(255) NOT NULL,
@@ -43,7 +42,6 @@ CREATE TABLE `documentdetails` (
 -- Table structure for table `masterlogin`
 --
 
-DROP TABLE IF EXISTS `masterlogin`;
 CREATE TABLE `masterlogin` (
   `email` varchar(100) NOT NULL,
   `pass` varchar(255) NOT NULL,
@@ -57,12 +55,11 @@ CREATE TABLE `masterlogin` (
 -- Table structure for table `sharedetails`
 --
 
-DROP TABLE IF EXISTS `sharedetails`;
 CREATE TABLE `sharedetails` (
   `share_id` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `doc_id` varchar(255) NOT NULL,
-  `last_opened` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `last_opened` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -104,7 +101,7 @@ ALTER TABLE `documentdetails`
 -- Constraints for table `sharedetails`
 --
 ALTER TABLE `sharedetails`
-  ADD CONSTRAINT `sharedetails_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `documentdetails` (`doc_id`);
+  ADD CONSTRAINT `sharedetails_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `documentdetails` (`doc_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
