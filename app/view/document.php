@@ -166,6 +166,8 @@
                         if($row) {
                             $stmt = $con->prepare("DELETE FROM documentdetails WHERE doc_id=?");
                             $stmt->execute([$doc_id]);
+                            $stmt = $con->prepare("DELETE FROM sharedetails WHERE doc_id=?");
+                            $stmt->execute([$doc_id]);
                             $filepath = "../storage/{$row['doc_id']}.txt";
                             unlink($filepath);
                         }

@@ -6,10 +6,10 @@ function saveDocument(doc_id) {
         data: {"action":"save","file":doc_id,"content":content},
         dataType: "text",
         beforeSend: function() {
-            alert("sending!")//showProgress();
+            showProgress();
         },
         complete: function() {
-            alert("Done!!");//showProgress(true);
+            showProgress(true);
         },
         success: function(response){
            $("#docEditor").val(response);

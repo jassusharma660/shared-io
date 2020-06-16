@@ -1,4 +1,3 @@
-
 function showProgress(stop) {
     if ($("#progress").length === 0 && stop!=true) {
         // inject the bar..
@@ -11,8 +10,10 @@ function showProgress(stop) {
                 showProgress();
             });
         });
-    } 
+    }
     else {
+      setTimeout(function(){
         $("#progress").remove();
+      },1000);
     }
 }
