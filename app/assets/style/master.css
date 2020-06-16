@@ -27,10 +27,6 @@ body {
   background-color: #f5f6fa;
 }
 
-a {
-    text-decoration:none;
-}
-
 #error {
     font-size: 0.7rem;
     width: 74%;
@@ -79,6 +75,7 @@ header .logo {
   color: #000;
   font-size: 1.2rem;
   font-family: 'MuseoModerno-Regular';
+  cursor: pointer;
 }
 
 header .logo img{

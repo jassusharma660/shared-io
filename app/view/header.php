@@ -14,11 +14,9 @@
     $showLogout = true;
 ?>
 <header>
-  <a href="/">
-    <span class="logo">
+    <span class="logo" onclick="window.location.href='/'">
       <img src="/app/assets/images/logos/logo.svg"/><b>shared</b>-io
     </span>
-  </a>
 </header>
 <?php
   if($showLogout) {
