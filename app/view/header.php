@@ -14,9 +14,11 @@
     $showLogout = true;
 ?>
 <header>
-  <span class="logo">
-    <img src="/app/assets/images/logos/logo.svg"/><b>shared</b>-io
-  </span>
+  <a href="/">
+    <span class="logo">
+      <img src="/app/assets/images/logos/logo.svg"/><b>shared</b>-io
+    </span>
+  </a>
 </header>
 <?php
   if($showLogout) {

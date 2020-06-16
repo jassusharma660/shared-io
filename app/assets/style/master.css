@@ -27,6 +27,10 @@ body {
   background-color: #f5f6fa;
 }
 
+a {
+    text-decoration:none;
+}
+
 #error {
     font-size: 0.7rem;
     width: 74%;
