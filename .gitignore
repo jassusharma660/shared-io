@@ -1,4 +1,5 @@
-/app/core/config-local.php
-/app/core/config.php
-/app/storage/
+app/core/config-local.php
+app/core/config-heroku.php
+app/core/config.php
+app/storage/
 shared-io.sql
