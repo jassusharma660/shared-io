@@ -1,6 +1,6 @@
 
 <p>
-<img width="150" align="left" src="https://raw.githubusercontent.com/jassusharma660/shared-io/master/guide/logo.png">
+<img width="150" align="left" src="https://raw.githubusercontent.com/jassusharma660/shared-io/f172dbd87db63006bce7050f22e1fa49bf447edd/guide/logo.png">
  
 Shared-io is a shared document editing tool built with LAMP stack.
 </p>  
@@ -23,7 +23,7 @@ Shared-io is a shared document editing tool built with LAMP stack.
 >### Signup Page
 
 <p align="center">
-  <img width="90%" border="1" src="https://raw.githubusercontent.com/jassusharma660/shared-io/master/guide/reg.png">
+  <img width="90%" border="1" src="https://raw.githubusercontent.com/jassusharma660/shared-io/f172dbd87db63006bce7050f22e1fa49bf447edd/guide/reg.png">
 </p>   
 
 ---   
